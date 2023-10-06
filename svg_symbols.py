@@ -1,4 +1,5 @@
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Generator
+from pyparsing import ParseResults
 import numpy as np
 import svg_functions as svgf
 
@@ -24,7 +25,9 @@ arg_len: Dict[str, int] = {
 }
 
 
-def tree_to_tokens(tree):
+def tree_to_tokens(
+    tree: Generator[Tuple[ParseResults, int, int], None, None]
+) -> List[List[str]]:
     """expands tokens with repeated arguments into verbose form"""
     tokens_expanded = []
     for tokens, start, end in tree:
@@ -40,7 +43,9 @@ def tree_to_tokens(tree):
     return tokens_expanded
 
 
-def tokens_to_path(token: List[str], resolution: int = 5):
+def tokens_to_path(
+    token: List[List[str]], resolution: int = 5
+) -> List[List[Tuple[float, float]]]:
     s: Tuple[float, float] = np.array([0, 0])
     lm: Tuple[float, float] = np.array([0, 0])
     tp: List[List[Tuple[float, float]]] = []
@@ -95,7 +100,7 @@ def tokens_to_path(token: List[str], resolution: int = 5):
 
         tp.append(points)
 
-        if cl == "z" or cl == "m":
+        if (cl == "z" or cl == "m") and len(tp):
             ttp.append(np.vstack(tp))
             tp = []
 

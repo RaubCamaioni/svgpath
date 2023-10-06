@@ -15,7 +15,7 @@ def cubic(
     p2: Tuple[float, float],
     p3: Tuple[float, float],
     t: List[float],
-):
+) -> List[Tuple[float, float]]:
     t = t[:, np.newaxis]
     return (
         (1 - t) ** 3 * p0
@@ -30,7 +30,7 @@ def quadratic(
     p1: Tuple[float, float],
     p2: Tuple[float, float],
     t: List[float],
-):
+) -> List[Tuple[float, float]]:
     t = t[:, np.newaxis]
     return p1 + (1 - t) ** 2 * (p0 - p1) + t**2 * (p2 - p1)
 
@@ -38,7 +38,7 @@ def quadratic(
 def cw_ccw_difference(
     angle1: float,
     angle2: float,
-):
+) -> Tuple[float, float]:
     angle1 = angle1 % tau
     angle2 = angle2 % tau
     cw = (angle1 - angle2) % tau
@@ -53,7 +53,7 @@ def arc(
     sweep: bool,
     p1: Tuple[float, float],
     t: List[float],
-):
+) -> List[Tuple[float, float]]:
     x0, y0 = p0
     a, b = d
     r = r * pi / 180
