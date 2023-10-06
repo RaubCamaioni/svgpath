@@ -19,8 +19,8 @@ if __name__ == "__main__":
     for p in tokens:
         print(p)
 
-    for path in svg_symbols.tokens_to_path(tokens):
-        plt.plot(path[:, 0], path[:, 1])
+    for path in svg_symbols.tokens_to_path(tokens, resolution=20):
+        # plt.plot(path[:, 0], path[:, 1])
         plt.scatter(
             path[:, 0],
             path[:, 1],

@@ -48,6 +48,7 @@ def tokens_to_path(
 ) -> List[List[Tuple[float, float]]]:
     s: Tuple[float, float] = np.array([0, 0])
     lm: Tuple[float, float] = np.array([0, 0])
+    lcp: Tuple[float, float] = np.array([0, 0])
     tp: List[List[Tuple[float, float]]] = []
     ttp: List = []
     t: List[float] = np.linspace(0, 1, resolution)
@@ -60,15 +61,19 @@ def tokens_to_path(
         if cl == "m":
             ns, points = move(c, s, args)
             lm = ns
+            lcp = ns
 
         elif cl == "l":
             ns, points = line(c, s, args)
+            lcp = ns
 
         elif cl == "h":
             ns, points = horizontal(c, s, args)
+            lcp = ns
 
         elif cl == "v":
             ns, points = vertical(c, s, args)
+            lcp = ns
 
         elif cl == "c":
             ns, points = cubic(c, s, args, t)
@@ -92,9 +97,11 @@ def tokens_to_path(
 
         elif cl == "a":
             ns, points = arc(c, s, args, t)
+            lcp = ns
 
         elif cl == "z":
             ns, points = close(s, lm)
+            lcp = ns
 
         s = ns
 
