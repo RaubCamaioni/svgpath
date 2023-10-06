@@ -99,8 +99,8 @@ def tokens_to_path(token: List[str], resolution: int = 5):
             ttp.append(np.vstack(tp))
             tp = []
 
-    # if len(tp):
-    #     ttp.append(np.vstack(tp))
+    if len(tp):
+        ttp.append(np.vstack(tp))
 
     return ttp
 

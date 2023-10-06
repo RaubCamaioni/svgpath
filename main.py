@@ -11,9 +11,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     with open(args.i, "r") as f:
-        svg_path = f.read()
+        svg_string = f.read()
 
-    tree = svg_peg.parse(svg_path)
+    tree = svg_peg.parse(svg_string)
     tokens = svg_symbols.tree_to_tokens(tree)
 
     for p in tokens:
