@@ -2,3 +2,6 @@ patterns/
 .vscode/
 __pycache__/
 venv/
+dist/
+svgpath.egg-info/
+build/

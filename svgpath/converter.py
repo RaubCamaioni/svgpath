@@ -26,7 +26,7 @@ def absolute_paths(
     paths: List[List[str]],
 ) -> List[List[str]]:
     """
-    Convert relative  to absolute tokens.
+    Convert relative tokens to absolute tokens.
 
     Args:
         paths (List[List[str]]): Generator of svg tokens.
