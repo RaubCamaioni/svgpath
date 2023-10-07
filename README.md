@@ -1,4 +1,9 @@
 ## Pure python: SVG path to 2D point parser
+
+Pure functional implimentation.  
+Should be easy to follow the implementation and extend.  
+
+functionality:  
 -parse svg paths to python objects  
 -plot svg paths to list of 2D points  
 -convert relative svg paths to absolute svg paths  

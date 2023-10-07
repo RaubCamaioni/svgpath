@@ -1,5 +1,16 @@
 from typing import Tuple, List
-from pyparsing import *
+from pyparsing import (
+    Word,
+    Literal,
+    nums,
+    Combine,
+    Optional,
+    Suppress,
+    OneOrMore,
+    ZeroOrMore,
+    Or,
+    Group,
+)
 
 
 def Caseless(c: str):

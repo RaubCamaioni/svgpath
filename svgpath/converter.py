@@ -1,4 +1,4 @@
-from typing import Tuple, List, Dict, Generator
+from typing import Tuple, List, Dict
 import numpy as np
 
 x_index: Dict[str, int] = {

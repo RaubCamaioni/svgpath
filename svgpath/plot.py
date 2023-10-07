@@ -1,8 +1,5 @@
 from matplotlib import pyplot as plt
-from .symbols import (
-    tree_to_paths,
-    paths_to_points,
-)
+from .symbols import tree_to_paths, paths_to_points
 from . import peg
 
 
