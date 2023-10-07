@@ -94,9 +94,4 @@ def arc(
             )
         ).T
 
-    # print()
-    # print(f"arc: {arc} sweep: {sweep}")
-    # print(f"start: {p0} end: {p1}")
-    # print(f"start: {p0} end: {p0 + ellipse(w + sd) - ellipse(w)}")
-
     return p0 + ellipse(w + sd * t) - ellipse(w)

@@ -9,13 +9,16 @@ def display_svg_path(svg_string: str):
     """display svg_paths with matplotlib"""
 
     tree = svg_peg.parse(svg_string)
+    paths = svg_symbols.tree_to_paths(tree)
+    tokens = list(svg_converter.paths_to_absolute_tokens(paths))
 
-    tokens = list(svg_symbols.tree_to_tokens(tree))
-    abs_tokens = list(svg_converter.tokens_to_absolute(tokens))
+    for t in tokens:
+        print(t)
 
-    f = plt.figure("Absolute")
-    for path in svg_symbols.tokens_to_path(abs_tokens, resolution=20):
-        plt.plot(path[:, 0], -path[:, 1])
+    _, ax = plt.subplots()
+    ax.invert_yaxis()
+    for trace in svg_symbols.tokens_to_trace(tokens, resolution=100):
+        ax.plot(trace[:, 0], trace[:, 1])
     plt.show()
 
 

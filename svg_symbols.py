@@ -25,7 +25,7 @@ arg_len: Dict[str, int] = {
 }
 
 
-def tree_to_tokens(
+def tree_to_paths(
     tree: Generator[Tuple[ParseResults, int, int], None, None]
 ) -> List[List[str]]:
     """expands tokens with repeated arguments into verbose form"""
@@ -34,14 +34,11 @@ def tree_to_tokens(
         for token in tokens:
             l = arg_len[token[0].lower()]
             values = token[1:]
-            expanded_tokens = [
-                values[i * l : (i + 1) * l] for i in range(max(len(values), 1) // l)
-            ]
-            for expanded_token in expanded_tokens:
-                yield [token[0], *expanded_token]
+            ts = [values[i * l : (i + 1) * l] for i in range(max(len(values), 1) // l)]
+            yield ([token[0], *t] for t in ts)
 
 
-def tokens_to_path(
+def tokens_to_trace(
     token: List[List[str]], resolution: int = 5
 ) -> List[List[Tuple[float, float]]]:
     s: Tuple[float, float] = np.array([0, 0])
@@ -159,21 +156,19 @@ def horizontal(
     if c.islower():
         e = s + [args[0], 0]
     else:
-        e = s + 0
-        e[0] = args
+        e = np.array([args[0], s[1]])
     return e, np.array([s, e], dtype=float)
 
 
 def vertical(
     c: str,
     s: Tuple[float, float],
-    args: float,
+    args: List[float],
 ) -> Tuple[Tuple[float, float], List[Tuple[float, float]]]:
     if c.islower():
         e = s + [0, args[0]]
     else:
-        e = s + 0
-        e[1] = args
+        e = np.array([s[0], args[0]])
     return e, np.array([s, e], dtype=float)
 
 
@@ -245,4 +240,8 @@ def arc(
     d, r, arc, sweep, p1 = args[:2], args[2], args[3], args[4], args[5:7]
     if c.islower():
         p1 = p1 + s
-    return p1, svgf.arc(s, d, r, arc, sweep, p1, t)
+
+    if np.linalg.norm(s - p1) > 0.0001:
+        return p1, svgf.arc(s, d, r, arc, sweep, p1, t)
+    else:
+        return p1, np.empty((0, 2), dtype=float)
