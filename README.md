@@ -5,7 +5,7 @@
 
 ## Parse SVG paths
 ```python
-import svgtrace
+import svgpath
 
 xml = """<?xml version="1.0" encoding="iso-8859-1"?>
 <svg>		
@@ -19,7 +19,7 @@ xml = """<?xml version="1.0" encoding="iso-8859-1"?>
     c0,0.542-0.44,0.981-0.982,0.981s-0.981-0.439-0.981-0.981C9.417,13.859,9.856,13.42,10.398,13.42z"/>
 </svg>"""
 
-tree = svgtrace.parse(xml)
+tree = svgpath.parse(xml)
 for path, start, end in tree:
     print(f"Path: {start}-{end}")
     for token in path:
@@ -68,7 +68,7 @@ Path: 515-944
 ## Convert to SVG Absolute
 
 ```python
-from svgtrace import (
+from svgpath import (
     tree_to_paths,
     path_absolute_tokens,
 )
@@ -125,7 +125,7 @@ Path: 1
 ## Plot SVG Paths
 ```python
 from matplotlib import pyplot as plt
-from svgtrace import paths_to_points
+from svgpath import paths_to_points
 paths = list(tree_to_paths(tree))
 
 _, ax = plt.subplots()
