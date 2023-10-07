@@ -1,5 +1,4 @@
-/patterns
-/.vscode
-/svg
-/__pycache__
-/venv
+patterns/
+.vscode/
+__pycache__/
+venv/

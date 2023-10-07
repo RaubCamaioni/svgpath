@@ -1,6 +1,5 @@
-from typing import Tuple, List, Dict
+from typing import Tuple, List, Dict, Generator
 import numpy as np
-from itertools import islice
 
 x_index: Dict[str, int] = {
     "m": np.array([1, 0]),
@@ -23,8 +22,18 @@ y_index: Dict[str, int] = {
 }
 
 
-def paths_to_absolute_tokens(paths: List[List[str]]):
-    """return tokens in absolute format"""
+def paths_to_absolute_tokens(
+    paths: List[List[str]],
+) -> List[List[str]]:
+    """
+    Convert relative  to absolute tokens.
+
+    Args:
+        paths (List[List[str]]): Generator of svg tokens.
+
+    Yields:
+        List[List[str]]: Generator of absolute svg tokens.
+    """
 
     sm: Tuple[float, float] = np.array([0, 0])
     cp: Tuple[float, float] = np.array([0, 0])

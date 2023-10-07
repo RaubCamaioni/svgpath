@@ -1,9 +1,7 @@
-from matplotlib import pyplot as plt
+from typing import List, Tuple
 from math import pi, tau
 import numpy as np
-from typing import List, Tuple
 
-# supporting material
 # https://en.wikipedia.org/wiki/B%C3%A9zier_curve
 # https://stackoverflow.com/questions/197649/how-to-calculate-center-of-an-ellipse-by-two-points-and-radius-sizes
 # https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Product-to-sum_and_sum-to-product_identities

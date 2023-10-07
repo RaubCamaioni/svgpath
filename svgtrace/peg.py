@@ -1,5 +1,5 @@
+from typing import Tuple, List
 from pyparsing import *
-from typing import Generator, Tuple
 
 
 def Caseless(c: str):
@@ -46,5 +46,5 @@ SVG = ZeroOrMore(
 )
 
 
-def parse(svg_string: str) -> Generator[Tuple[ParseResults, int, int], None, None]:
+def parse(svg_string: str) -> List[Tuple[List[str], int, int]]:
     return SVG.scan_string(svg_string)

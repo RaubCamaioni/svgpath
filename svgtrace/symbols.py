@@ -1,16 +1,8 @@
-from typing import List, Tuple, Dict, Generator
-from pyparsing import ParseResults
+from typing import List, Tuple, Dict
+from . import functions as svgf
 import numpy as np
-import svg_functions as svgf
 
-
-def truncate(input: str, length: int = 50) -> str:
-    if len(input) > length:
-        return input[: length - 3] + "..."
-    else:
-        return input
-
-
+# token length lookup
 arg_len: Dict[str, int] = {
     "m": 2,
     "l": 2,
@@ -21,14 +13,20 @@ arg_len: Dict[str, int] = {
     "q": 4,
     "t": 2,
     "a": 7,
-    "z": 1,
+    "z": 1,  # special case
 }
 
 
-def tree_to_paths(
-    tree: Generator[Tuple[ParseResults, int, int], None, None]
-) -> List[List[str]]:
-    """expands tokens with repeated arguments into verbose form"""
+def tree_to_paths(tree: List[List[str]]) -> List[List[str]]:
+    """
+    Expand SVG tokens into verbose format.
+
+    Args:
+        tree (List[List[str]]): List/Generator of SVG tokens.
+
+    Returns:
+        List[List[str]]: Generator of expanded SVG tokens paths.
+    """
 
     for tokens, start, end in tree:
         for token in tokens:
@@ -41,11 +39,21 @@ def tree_to_paths(
 def tokens_to_trace(
     token: List[List[str]], resolution: int = 5
 ) -> List[List[Tuple[float, float]]]:
+    """
+    SVG tokens to list of 2D points.
+
+    Args:
+        token (List[List[str]]): List/Generator of SVG tokens.
+        resolution int: max number of points for each token.
+
+    Returns:
+        List[List[Tuple[float, float]]]: list of 2D points for each path
+    """
+
     s: Tuple[float, float] = np.array([0, 0])
     lm: Tuple[float, float] = np.array([0, 0])
     lcp: Tuple[float, float] = np.array([0, 0])
     tp: List[List[Tuple[float, float]]] = []
-    ttp: List = []
     t: List[float] = np.linspace(0, 1, resolution)
 
     for p in token:
@@ -115,13 +123,11 @@ def tokens_to_trace(
         tp.append(points)
 
         if (cl == "z" or cl == "m") and len(tp):
-            ttp.append(np.vstack(tp))
+            yield np.vstack(tp)
             tp = []
 
     if len(tp):
-        ttp.append(np.vstack(tp))
-
-    return ttp
+        yield np.vstack(tp)
 
 
 def move(
