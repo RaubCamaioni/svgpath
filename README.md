@@ -129,7 +129,7 @@ from svgtrace import paths_to_points
 paths = list(tree_to_paths(tree))
 
 _, ax = plt.subplots()
-ax.invert_yaxis()
+ax.invert_yaxis() # origin at top left
 for path in paths_to_points(paths, resolution=100):
     for trace in path:
         ax.plot(trace[:, 0], trace[:, 1])
