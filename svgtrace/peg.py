@@ -9,7 +9,11 @@ def Caseless(c: str):
 number_integer = Word(nums)
 number_float = Word(nums) + Literal(".") + Word(nums)
 number_decimal = Literal(".") + Word(nums)
-number = Combine(Optional("-") + (number_float | number_integer | number_decimal))
+number = Combine(
+    Optional("-")
+    + (number_float | number_integer | number_decimal)
+    + Optional(Suppress(","))
+)
 
 MOVE = Caseless("m") + number[2]
 LINE = Caseless("l") + OneOrMore(number[2])
