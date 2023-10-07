@@ -72,6 +72,9 @@ Path: 515-944
 ```
 ## Convert to SVG Absolute
 
+Breaking relative dependence between SVG tokens.  
+Allows for the partial display of an SVG path.  
+
 ```python
 from svgpath import (
     tree_to_paths,
