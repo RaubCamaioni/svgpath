@@ -17,7 +17,7 @@ arg_len: Dict[str, int] = {
 }
 
 
-def tree_to_paths(tree: List[List[str]]) -> List[List[str]]:
+def tree_to_paths(paths: List[List[str]]) -> List[List[str]]:
     """
     Expand SVG tokens into verbose format.
 
@@ -28,16 +28,21 @@ def tree_to_paths(tree: List[List[str]]) -> List[List[str]]:
         List[List[str]]: Generator of expanded SVG tokens paths.
     """
 
-    for tokens, start, end in tree:
-        for token in tokens:
+    def path_to_token(path):
+        for token in path:
             l = arg_len[token[0].lower()]
             values = token[1:]
-            ts = [values[i * l : (i + 1) * l] for i in range(max(len(values), 1) // l)]
-            yield ([token[0], *t] for t in ts)
+            et = [values[i * l : (i + 1) * l] for i in range(max(len(values), 1) // l)]
+            for t in et:
+                yield [token[0], *t]
+
+    for path, start, end in paths:
+        yield path_to_token(path)
 
 
-def tokens_to_trace(
-    token: List[List[str]], resolution: int = 5
+def paths_to_points(
+    paths: List[List[str]],
+    resolution: int = 5,
 ) -> List[List[Tuple[float, float]]]:
     """
     SVG tokens to list of 2D points.
@@ -50,84 +55,88 @@ def tokens_to_trace(
         List[List[Tuple[float, float]]]: list of 2D points for each path
     """
 
-    s: Tuple[float, float] = np.array([0, 0])
-    lm: Tuple[float, float] = np.array([0, 0])
-    lcp: Tuple[float, float] = np.array([0, 0])
-    tp: List[List[Tuple[float, float]]] = []
-    t: List[float] = np.linspace(0, 1, resolution)
+    def path_to_points(path):
+        s: Tuple[float, float] = np.array([0, 0])
+        lm: Tuple[float, float] = np.array([0, 0])
+        lcp: Tuple[float, float] = np.array([0, 0])
+        tp: List[List[Tuple[float, float]]] = []
+        t: List[float] = np.linspace(0, 1, resolution)
 
-    for p in token:
-        c = p[0]
-        cl = c.lower()
-        args = np.array(p[1:], dtype=float)
+        for p in path:
+            c: str = p[0]
+            cl = c.lower()
+            args: List[str] = np.array(p[1:], dtype=float)
 
-        if cl == "m":
-            ns, points = move(c, s, args)
-            lm = ns
-            lcp = ns
+            if cl == "m":
+                ns, points = move(c, s, args)
+                lm = ns
+                lcp = ns
 
-        elif cl == "l":
-            ns, points = line(c, s, args)
-            lcp = ns
+            elif cl == "l":
+                ns, points = line(c, s, args)
+                lcp = ns
 
-        elif cl == "h":
-            ns, points = horizontal(c, s, args)
-            lcp = ns
+            elif cl == "h":
+                ns, points = horizontal(c, s, args)
+                lcp = ns
 
-        elif cl == "v":
-            ns, points = vertical(c, s, args)
-            lcp = ns
+            elif cl == "v":
+                ns, points = vertical(c, s, args)
+                lcp = ns
 
-        elif cl == "c":
-            ns, points = cubic(c, s, args, t)
+            elif cl == "c":
+                ns, points = cubic(c, s, args, t)
 
-            if c.islower():
-                lcp = args[-4:-2] + s
-            else:
-                lcp = args[-4:-2]
+                if c.islower():
+                    lcp = args[-4:-2] + s
+                else:
+                    lcp = args[-4:-2]
 
-        elif cl == "s":
-            ns, points = cubic_extended(c, s, lcp, args, t)
+            elif cl == "s":
+                ns, points = cubic_extended(c, s, lcp, args, t)
 
-            if c.islower():
-                lcp = args[-4:-2] + s
-            else:
-                lcp = args[-4:-2]
+                if c.islower():
+                    lcp = args[-4:-2] + s
+                else:
+                    lcp = args[-4:-2]
 
-        elif cl == "q":
-            ns, points = quadratic(c, s, args, t)
+            elif cl == "q":
+                ns, points = quadratic(c, s, args, t)
 
-            if c.islower():
-                lcp = args[-4:-2] + s
-            else:
-                lcp = args[-4:-2]
+                if c.islower():
+                    lcp = args[-4:-2] + s
+                else:
+                    lcp = args[-4:-2]
 
-        elif cl == "t":
-            ns, points = quadratic_extended(c, s, lcp, args, t)
+            elif cl == "t":
+                ns, points = quadratic_extended(c, s, lcp, args, t)
 
-            if c.islower():
-                lcp = args[-4:-2] + s
-            else:
-                lcp = args[-4:-2]
+                if c.islower():
+                    lcp = args[-4:-2] + s
+                else:
+                    lcp = args[-4:-2]
 
-        elif cl == "a":
-            ns, points = arc(c, s, args, t)
-            lcp = ns
+            elif cl == "a":
+                ns, points = arc(c, s, args, t)
+                lcp = ns
 
-        elif cl == "z":
-            ns, points = close(s, lm)
-            lcp = ns
+            elif cl == "z":
+                ns, points = close(s, lm)
+                lcp = ns
 
-        s = ns
+            s = ns
 
-        tp.append(points)
+            tp.append(points)
 
-        if (cl == "z" or cl == "m") and len(tp):
+            if (cl == "z" or cl == "m") and len(tp):
+                yield np.vstack(tp)
+                tp = []
+
+        if len(tp):
             yield np.vstack(tp)
-            tp = []
 
-    if len(tp):
-        yield np.vstack(tp)
+    for path in paths:
+        yield path_to_points(path)
 
 
 def move(

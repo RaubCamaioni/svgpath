@@ -22,7 +22,7 @@ y_index: Dict[str, int] = {
 }
 
 
-def paths_to_absolute_tokens(
+def path_absolute_tokens(
     paths: List[List[str]],
 ) -> List[List[str]]:
     """
@@ -35,12 +35,13 @@ def paths_to_absolute_tokens(
         List[List[str]]: Generator of absolute svg tokens.
     """
 
-    sm: Tuple[float, float] = np.array([0, 0])
-    cp: Tuple[float, float] = np.array([0, 0])
+    def token_generator(tokens: List[List[str]]):
+        sm: Tuple[float, float] = np.array([0, 0])
+        cp: Tuple[float, float] = np.array([0, 0])
 
-    for tokens in paths:
         for token in tokens:
-            c, args = token[0], np.array(token[1:], dtype=float)
+            c = token[0]
+            args = np.array(token[1:], dtype=float)
 
             if c.islower():
                 if c == "z":
@@ -74,3 +75,6 @@ def paths_to_absolute_tokens(
                     cp = args[-2:]
 
             yield [c.upper(), *np.round(args, decimals=3).astype(str)]
+
+    for tokens in paths:
+        yield token_generator(tokens)

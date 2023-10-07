@@ -51,4 +51,6 @@ SVG = ZeroOrMore(
 
 
 def parse(svg_string: str) -> List[Tuple[List[str], int, int]]:
-    return SVG.scan_string(svg_string)
+    for tree, start, end in SVG.scan_string(svg_string):
+        if len(tree):
+            yield tree, start, end

@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
-from .symbols import tree_to_paths, tokens_to_trace
-from .converter import paths_to_absolute_tokens
+from .symbols import tree_to_paths, paths_to_points
+from .converter import path_absolute_tokens
 from . import peg
 
 
@@ -9,14 +9,14 @@ def display_svg_path(svg_string: str):
 
     tree = peg.parse(svg_string)
     paths = tree_to_paths(tree)
-    tokens = list(paths_to_absolute_tokens(paths))
+    tokens = list(path_absolute_tokens(paths))
 
     for t in tokens:
         print(t)
 
     _, ax = plt.subplots()
     ax.invert_yaxis()
-    for trace in tokens_to_trace(tokens, resolution=100):
+    for trace in paths_to_points(tokens, resolution=100):
         ax.plot(trace[:, 0], trace[:, 1])
     plt.show()
 

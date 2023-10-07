@@ -1,3 +1,3 @@
-from .converter import paths_to_absolute_tokens
+from .converter import path_absolute_tokens
 from .peg import parse
-from .symbols import tokens_to_trace, tree_to_paths
+from .symbols import paths_to_points, tree_to_paths
