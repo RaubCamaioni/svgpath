@@ -8,6 +8,11 @@ Functionality:
 - Generate list of 2D points from SVG paths
 - Convert SVG relative paths to absolute representation
 
+pip install from repo
+```
+pip install git+https://github.com/RaubCamaioni/svgpath.git
+```
+
 ## Parse SVG paths
 ```python
 import svgpath
