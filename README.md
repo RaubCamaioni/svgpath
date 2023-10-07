@@ -7,7 +7,7 @@
 ```python
 import svgpath
 
-xml = """<?xml version="1.0" encoding="iso-8859-1"?>
+python_logo = """<?xml version="1.0" encoding="iso-8859-1"?>
 <svg>		
   <path d="M11.298,8.02c1.295-0.587,1.488-5.055,0.724-6.371c-0.998-1.718-5.742-1.373-7.24-0.145
     C4.61,2.114,4.628,3.221,4.636,4.101h4.702v0.412H4.637c0,0.006-2.093,0.013-2.093,0.013c-3.609,0-3.534,7.838,1.228,7.838
@@ -19,7 +19,7 @@ xml = """<?xml version="1.0" encoding="iso-8859-1"?>
     c0,0.542-0.44,0.981-0.982,0.981s-0.981-0.439-0.981-0.981C9.417,13.859,9.856,13.42,10.398,13.42z"/>
 </svg>"""
 
-tree = svgpath.parse(xml)
+tree = svgpath.parse(python_logo)
 for path, start, end in tree:
     print(f"Path: {start}-{end}")
     for token in path:
@@ -70,12 +70,12 @@ Path: 515-944
 ```python
 from svgpath import (
     tree_to_paths,
-    path_absolute_tokens,
+    absolute_paths,
 )
 
 # expand generator of generators (needed to compare generator outputs)
 paths = [[token for token in path] for path in tree_to_paths(tree)]
-apaths = [[token for token in path] for path in path_absolute_tokens(paths)]
+apaths = [[token for token in path] for path in absolute_paths(paths)]
 
 for i, (path, apath) in enumerate(zip(paths, apaths)):
     print(f"Path: {i}")
@@ -124,6 +124,7 @@ Path: 1
 ```
 ## Plot SVG Paths
 ```python
+# python script
 from matplotlib import pyplot as plt
 from svgpath import paths_to_points
 paths = list(tree_to_paths(tree))
@@ -134,6 +135,10 @@ for path in paths_to_points(paths, resolution=100):
     for trace in path:
         ax.plot(trace[:, 0], trace[:, 1])
 plt.show()
+```
+```bash
+# module execution
+python -m svgpath.plot -i <path_to_svg>
 ```
 
 ![Python Logo](images/python_logo.jpg)

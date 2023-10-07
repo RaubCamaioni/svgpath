@@ -22,7 +22,7 @@ y_index: Dict[str, int] = {
 }
 
 
-def path_absolute_tokens(
+def absolute_paths(
     paths: List[List[str]],
 ) -> List[List[str]]:
     """
