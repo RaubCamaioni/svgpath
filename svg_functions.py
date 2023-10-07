@@ -79,15 +79,12 @@ def arc(
         d0 = cw
         d1 = cws
 
-    if abs(d1) > abs(d0):
-        w = w0
-    else:
-        w = w0s
-
     if arc:
         sd = max(d0, d1, key=abs)
+        w = w0 if abs(d0) > abs(d1) else w0s
     else:
         sd = min(d0, d1, key=abs)
+        w = w0 if abs(d0) < abs(d1) else w0s
 
     def ellipse(w: float):
         return np.array(
@@ -96,5 +93,10 @@ def arc(
                 b * np.sin(w + r),
             )
         ).T
+
+    # print()
+    # print(f"arc: {arc} sweep: {sweep}")
+    # print(f"start: {p0} end: {p1}")
+    # print(f"start: {p0} end: {p0 + ellipse(w + sd) - ellipse(w)}")
 
     return p0 + ellipse(w + sd * t) - ellipse(w)

@@ -29,7 +29,7 @@ def tree_to_tokens(
     tree: Generator[Tuple[ParseResults, int, int], None, None]
 ) -> List[List[str]]:
     """expands tokens with repeated arguments into verbose form"""
-    tokens_expanded = []
+
     for tokens, start, end in tree:
         for token in tokens:
             l = arg_len[token[0].lower()]
@@ -38,9 +38,7 @@ def tree_to_tokens(
                 values[i * l : (i + 1) * l] for i in range(max(len(values), 1) // l)
             ]
             for expanded_token in expanded_tokens:
-                tokens_expanded.append([token[0], *expanded_token])
-
-    return tokens_expanded
+                yield [token[0], *expanded_token]
 
 
 def tokens_to_path(
@@ -77,23 +75,35 @@ def tokens_to_path(
 
         elif cl == "c":
             ns, points = cubic(c, s, args, t)
+
             if c.islower():
                 lcp = args[-4:-2] + s
+            else:
+                lcp = args[-4:-2]
 
         elif cl == "s":
             ns, points = cubic_extended(c, s, lcp, args, t)
+
             if c.islower():
                 lcp = args[-4:-2] + s
+            else:
+                lcp = args[-4:-2]
 
         elif cl == "q":
             ns, points = quadratic(c, s, args, t)
+
             if c.islower():
                 lcp = args[-4:-2] + s
+            else:
+                lcp = args[-4:-2]
 
         elif cl == "t":
             ns, points = quadratic_extended(c, s, lcp, args, t)
+
             if c.islower():
                 lcp = args[-4:-2] + s
+            else:
+                lcp = args[-4:-2]
 
         elif cl == "a":
             ns, points = arc(c, s, args, t)
