@@ -37,6 +37,7 @@ def tree_to_paths(paths: List[List[str]]) -> List[List[str]]:
                 yield [token[0], *t]
 
     for path, start, end in paths:
+        # if len(path):
         yield path_to_token(path)
 
 
@@ -126,7 +127,8 @@ def paths_to_points(
 
             s = ns
 
-            tp.append(points)
+            if len(points):
+                tp.append(points)
 
             if (cl == "z" or cl == "m") and len(tp):
                 yield np.vstack(tp)
