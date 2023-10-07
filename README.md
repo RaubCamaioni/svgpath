@@ -73,7 +73,7 @@ from svgtrace import (
     path_absolute_tokens,
 )
 
-# expand generator of generators (only needed to compair generator outputs)
+# expand generator of generators (needed to compare generator outputs)
 paths = [[token for token in path] for path in tree_to_paths(tree)]
 apaths = [[token for token in path] for path in path_absolute_tokens(paths)]
 
