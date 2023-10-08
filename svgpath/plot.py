@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 from .symbols import tree_to_paths, paths_to_points
 from . import peg
+from .transforms import translate, scale, bounds
 
 
 def display_svg_path(svg_string: str):
@@ -16,11 +17,15 @@ def display_svg_path(svg_string: str):
             for token in tokens:
                 print(f"  {token}")
 
-    _, ax = plt.subplots()
-    ax.invert_yaxis()  # origin at top left
-    for path in paths_to_points(paths, resolution=100):
-        for trace in path:
-            ax.plot(trace[:, 0], trace[:, 1])
+    gen = paths_to_points(paths, resolution=10)
+    points = [trace for paths in gen for trace in paths]
+
+    x, y, w, h = bounds(points)
+    points = translate(-x, -y, points)
+    points = scale(1 / w, 1 / h, points)
+
+    for trace in points:
+        plt.plot(trace[:, 0], trace[:, 1])
     plt.show()
 
 

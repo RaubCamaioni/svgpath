@@ -37,7 +37,6 @@ def tree_to_paths(paths: List[List[str]]) -> List[List[str]]:
                 yield [token[0], *t]
 
     for path, start, end in paths:
-        # if len(path):
         yield path_to_token(path)
 
 
