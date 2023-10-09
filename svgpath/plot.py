@@ -24,8 +24,10 @@ def display_svg_path(svg_string: str):
     points = translate(-x, -y, points)
     points = scale(1 / w, 1 / h, points)
 
+    fig, ax = plt.subplots()
+    ax.invert_yaxis()
     for trace in points:
-        plt.plot(trace[:, 0], trace[:, 1])
+        ax.plot(trace[:, 0], trace[:, 1])
     plt.show()
 
 
