@@ -60,7 +60,7 @@ def paths_to_points(
         lm: Tuple[float, float] = np.array([0, 0])
         lcp: Tuple[float, float] = np.array([0, 0])
         tp: List[List[Tuple[float, float]]] = []
-        t: List[float] = np.linspace(0, 1, resolution)
+        t: List[float] = np.linspace(0, 1, resolution, endpoint=True)
 
         for p in path:
             c: str = p[0]
