@@ -40,6 +40,7 @@ def display_svg_path(svg_string: str):
         #     linewidth=1,
         # )
 
+    plt.gca().set_aspect("equal")
     plt.show()
 
 
