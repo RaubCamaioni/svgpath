@@ -1,6 +1,43 @@
 [build-system]
-requires = [
-    "setuptools",
-    "wheel"
-]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "svgpath"
+dynamic = ["version"]
+urls = {Homepage = "https://github.com/RaubCamaioni/svgpath"}
+requires-python = ">=3.8"
+description = "Parse SVG files to numpy vectors"
+readme = "README.md"
+keywords = [ "svg", "numpy"]
+dependencies = [ "numpy", "pyparsing" ]
+
+[[project.authors]]
+name = "Raub Camaioni"
+
+[tool.setuptools.dynamic]
+version = {attr = "svgpath.__version__"}
+
+[[project.maintainers]]
+name = "Raub Camaioni"
+
+[project.license]
+file = "LICENSE"
+
+[project.optional-dependencies]
+display = [ "pyqt6", "matplotlib" ]
+testing = [ "pytest>=6.2.4",]
+dev = [ "pytest>=6.2.4", "pre-commit",]
+
+
+[project.scripts]
+svg-plot = "svgpath.plot:main"
+
+[tool.ruff]
+line-length = 100
+ignore = [ "F403", "F405", "F401",]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "tab"
+docstring-code-format = true

@@ -30,20 +30,20 @@ def display_svg_path(svg_string: str):
     for trace in points:
         ax.plot(trace[:, 0], trace[:, 1])
 
-        plt.scatter(
-            trace[:, 0],
-            trace[:, 1],
-            c=np.arange(len(trace)),
-            cmap="RdBu",
-            marker="o",
-            facecolors="none",
-            linewidth=1,
-        )
+        # plt.scatter(
+        #     trace[:, 0],
+        #     trace[:, 1],
+        #     c=np.arange(len(trace)),
+        #     cmap="RdBu",
+        #     marker="o",
+        #     facecolors="none",
+        #     linewidth=1,
+        # )
 
     plt.show()
 
 
-if __name__ == "__main__":
+def main():
     import argparse
 
     parser = argparse.ArgumentParser()
@@ -54,3 +54,7 @@ if __name__ == "__main__":
         svg_string = f.read()
 
     display_svg_path(svg_string)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,8 +1,3 @@
-import setuptools
+from setuptools import setup
 
-setuptools.setup(
-    install_requires=[
-        "numpy",
-        "pyparsing",
-    ],
-)
+setup()

@@ -149,9 +149,10 @@ for path in paths_to_points(paths, resolution=100):
         ax.plot(trace[:, 0], trace[:, 1])
 plt.show()
 ```
+The library includes a plotting script.  
+It requires matplotlib and pyqt6 be installed "pip install svgpath[display]".  
 ```bash
-# module execution
-python -m svgpath.plot -i <path_to_svg>
+svg-plot -i python_logo.svg
 ```
 
-![Python Logo](images/python_logo.jpg)
+![Python Logo](images/python_logo.png)
