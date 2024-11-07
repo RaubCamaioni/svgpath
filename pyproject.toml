@@ -10,7 +10,7 @@ requires-python = ">=3.8"
 description = "Parse SVG files to numpy vectors"
 readme = "README.md"
 keywords = [ "svg", "numpy"]
-dependencies = [ "numpy", "pyparsing" ]
+dependencies = [ "numpy", "pyparsing>=3.0" ]
 
 [[project.authors]]
 name = "Raub Camaioni"
