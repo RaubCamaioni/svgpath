@@ -150,7 +150,7 @@ for path in paths_to_points(paths, resolution=100):
 plt.show()
 ```
 The library includes a plotting script.  
-It requires matplotlib and pyqt6 be installed "pip install svgpath[display]".  
+It requires matplotlib and pyqt6 be installed "pip install mountain-svgpath[display]".  
 ```bash
 svg-plot -i python_logo.svg
 ```
