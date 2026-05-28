@@ -1,6 +1,7 @@
 patterns/
 .vscode/
 venv/
+.venv/
 svgpath.egg-info/
 __pycache__/
 *.py[cod]

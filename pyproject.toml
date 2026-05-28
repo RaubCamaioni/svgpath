@@ -29,9 +29,10 @@ display = [ "pyqt6", "matplotlib" ]
 testing = [ "pytest>=6.2.4",]
 dev = [ "pytest>=6.2.4", "pre-commit",]
 
-
 [project.scripts]
-svg-plot = "svgpath.plot:main"
+svg-plot = "svgpath.cli:plot"
+svg-path = "svgpath.cli:path"
+svg-tree = "svgpath.cli:tree"
 
 [tool.ruff]
 line-length = 100

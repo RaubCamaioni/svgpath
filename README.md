@@ -1,4 +1,4 @@
-## Pure python: SVG path to 2D point parser
+## Pure Python SVG to Numpy 2D Array
 
 Pure functional implimentation.  
 Should be easy to follow the implementation and extend.  
