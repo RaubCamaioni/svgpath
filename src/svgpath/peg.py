@@ -75,7 +75,9 @@ def parse_dimensions(svg_string: str) -> Tuple[bool, float, float]:
 	w = WIDTH.search_string(svg_string)
 	h = HEIGHT.search_string(svg_string)
 
-	if None in [w, h]:
+	if None in [w, h] or 0 in [len(w), len(h)]:
 		return False, 0, 0
+
+	print(f'{w} {h}')
 
 	return True, float(w[0][0]), float(h[0][0])
